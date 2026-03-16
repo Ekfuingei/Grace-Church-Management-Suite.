@@ -1,0 +1,18 @@
+# Render Blueprint - Grace Church Management Suite
+# Deploy: Connect this repo in Render Dashboard, or use "New > Blueprint"
+
+services:
+  - type: web
+    name: grace-church-cms
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
