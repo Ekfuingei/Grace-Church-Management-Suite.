@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F7F5F0;
+    --foreground: #1A1A24;
+    --muted: #6B6B7A;
+    --accent: #A67C52;
+    --accent-gold: #C9A227;
+    --success: #2D7A4F;
+    --danger: #B83232;
+    --border: #E8E5DF;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'ss01' on, 'ss02' on;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Subtle background pattern for premium feel */
+.bg-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(166, 124, 82, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(201, 162, 39, 0.02) 0%, transparent 50%);
+}
+
+/* Login page gradient */
+.bg-login {
+  background: linear-gradient(135deg, #F7F5F0 0%, #F0EDE6 50%, #F2F0EB 100%);
+}
