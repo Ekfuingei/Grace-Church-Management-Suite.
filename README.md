@@ -89,10 +89,13 @@ src/
 
 ### Backend (Supabase)
 
-Supabase is already hosted. Ensure:
-1. Run `supabase/migrations/00001_initial_schema.sql` in SQL Editor
-2. Run `supabase/migrations/00002_admin_user_role.sql`
+Supabase is already hosted. Deploy the schema:
+
+1. Open [Supabase SQL Editor](https://supabase.com/dashboard/project/kabhwfzcrgvjvhrdgsup/sql)
+2. Run the full contents of `supabase/deploy-backend.sql`
 3. Run `npm run seed:demo-users` to create demo users (or add manually in Auth → Users)
+
+See `DEPLOY-BACKEND.md` for details.
 
 ---
 
