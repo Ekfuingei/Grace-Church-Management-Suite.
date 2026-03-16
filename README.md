@@ -68,6 +68,33 @@ src/
 └── types/          # TypeScript types
 ```
 
+## Deployment
+
+### Frontend (Vercel or Netlify)
+
+**Vercel** (recommended):
+1. Push code to GitHub
+2. Go to [vercel.com](https://vercel.com) → Import your repo
+3. Add environment variables:
+   - `VITE_SUPABASE_URL` = your Supabase project URL
+   - `VITE_SUPABASE_ANON_KEY` = your Supabase anon key
+4. Deploy (omit env vars for demo mode)
+
+**Netlify:**
+1. Push code to GitHub
+2. Go to [netlify.com](https://netlify.com) → Add new site → Import from Git
+3. Build command: `npm run build`, Publish directory: `dist`
+4. Add the same env vars in Site settings → Environment variables
+
+### Backend (Supabase)
+
+Supabase is already hosted. Ensure:
+1. Run `supabase/migrations/00001_initial_schema.sql` in SQL Editor
+2. Run `supabase/migrations/00002_admin_user_role.sql`
+3. Run `npm run seed:demo-users` to create demo users (or add manually in Auth → Users)
+
+---
+
 ## Development Roadmap
 
 - **Phase 1** ✅ Foundation (Auth, Members, Settings, Navigation)
