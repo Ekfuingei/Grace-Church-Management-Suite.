@@ -47,14 +47,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isDemoMode = !isSupabaseConfigured()
 
   useEffect(() => {
+    // Always check demo session first (hardcoded fallback)
+    const demoUser = getDemoSession()
+    if (demoUser) {
+      const u = createDemoUser(demoUser.id, demoUser.email, demoUser.role)
+      setUser(u)
+      setSession({ user: u } as Session)
+      setRole(demoUser.role)
+      setLoading(false)
+      return
+    }
+
     if (isDemoMode) {
-      const demoUser = getDemoSession()
-      if (demoUser) {
-        const u = createDemoUser(demoUser.id, demoUser.email, demoUser.role)
-        setUser(u)
-        setSession({ user: u } as Session)
-        setRole(demoUser.role)
-      }
       setLoading(false)
       return
     }
@@ -78,16 +82,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [isDemoMode])
 
   const signIn = async (email: string, password: string) => {
+    // Always try hardcoded demo credentials first
+    const demoUser = getDemoUserByCredentials(email, password)
+    if (demoUser) {
+      setDemoSession(demoUser)
+      const u = createDemoUser(demoUser.id, demoUser.email, demoUser.role)
+      setUser(u)
+      setSession({ user: u } as Session)
+      setRole(demoUser.role)
+      return { error: null }
+    }
+
     if (isDemoMode) {
-      const demoUser = getDemoUserByCredentials(email, password)
-      if (demoUser) {
-        setDemoSession(demoUser)
-        const u = createDemoUser(demoUser.id, demoUser.email, demoUser.role)
-        setUser(u)
-        setSession({ user: u } as Session)
-        setRole(demoUser.role)
-        return { error: null }
-      }
       return {
         error: new Error(
           'Invalid credentials. Admin: admin@demo.gracechurch.org | Media: media@demo.gracechurch.org (password: demo123)'
@@ -100,7 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const signOut = async () => {
-    if (isDemoMode) {
+    const demoUser = getDemoSession()
+    if (demoUser) {
       clearDemoSession()
       setUser(null)
       setSession(null)
