@@ -2,30 +2,27 @@
 
 The backend is Supabase — it's already hosted. You just need to run the schema.
 
-## Option 1: Supabase SQL Editor (recommended)
+## Step 1: Run schema in Supabase SQL Editor
 
-1. Open your project: **https://supabase.com/dashboard/project/kabhwfzcrgvjvhrdgsup**
-2. Go to **SQL Editor**
-3. Click **New query**
-4. Copy the entire contents of `supabase/deploy-backend.sql`
-5. Paste and click **Run**
+1. Open **https://supabase.com/dashboard/project/kabhwfzcrgvjvhrdgsup/sql**
+2. Click **New query**
+3. Copy the entire contents of `supabase/deploy-backend.sql`
+4. Paste and click **Run**
 
-## Option 2: CLI migration (when DB is reachable)
+## Step 2: Create demo users
 
-```bash
-npm run db:migrate
-```
+If you get "Database error creating new user" when running the seed:
 
-Requires `SUPABASE_DB_URL` or `SUPABASE_DB_POOLER_URL` in `.env`.
+1. In SQL Editor, run `supabase/pre-seed-drop-trigger.sql` (drops the trigger)
+2. Run `npm run seed:demo-users`
+3. Run `supabase/deploy-backend.sql` again to restore the trigger
 
-## After deployment: Create demo users
+Otherwise just run:
 
 ```bash
 npm run seed:demo-users
 ```
 
-Or add manually in **Authentication → Users → Add user**:
-- Admin: `admin@demo.gracechurch.org` / `demo123`
-- Media: `media@demo.gracechurch.org` / `demo123`
-
-Set **User Metadata** → `role` to `admin` or `media` for each.
+**Or add manually** in Authentication → Users → Add user:
+- Admin: `admin@demo.gracechurch.org` / `demo123` (metadata: `{"role":"admin"}`)
+- Media: `media@demo.gracechurch.org` / `demo123` (metadata: `{"role":"media"}`)

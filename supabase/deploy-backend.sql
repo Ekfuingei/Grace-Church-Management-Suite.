@@ -83,13 +83,17 @@ CREATE TRIGGER trg_member_id BEFORE INSERT ON members
 CREATE OR REPLACE FUNCTION handle_new_admin_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO admin_users (id, email, full_name, role)
-  VALUES (
-    NEW.id, NEW.email,
-    COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email),
-    COALESCE(NEW.raw_user_meta_data->>'role', 'admin')
-  )
-  ON CONFLICT (id) DO NOTHING;
+  BEGIN
+    INSERT INTO admin_users (id, email, full_name, role)
+    VALUES (
+      NEW.id, NEW.email,
+      COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email),
+      COALESCE(NEW.raw_user_meta_data->>'role', 'admin')
+    )
+    ON CONFLICT (id) DO NOTHING;
+  EXCEPTION WHEN OTHERS THEN
+    NULL; -- Don't block user creation if admin_users missing
+  END;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
