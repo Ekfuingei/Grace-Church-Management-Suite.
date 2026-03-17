@@ -32,7 +32,7 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-login bg-pattern p-4">
+    <div className="relative flex min-h-screen min-h-[100dvh] items-center justify-center overflow-hidden bg-login bg-pattern p-3 sm:p-4">
       {/* Decorative cross / accent */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.03]">
         <svg width="320" height="320" viewBox="0 0 24 24" fill="currentColor" className="text-foreground">
@@ -41,7 +41,7 @@ export function Login() {
         </svg>
       </div>
 
-      <div className="relative w-full max-w-[420px] animate-fade-in">
+      <div className="relative w-full max-w-[420px] min-w-0 animate-fade-in">
         {/* Brand header */}
         <div className="mb-10 text-center">
           <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10">
@@ -57,7 +57,7 @@ export function Login() {
 
         {/* Login card */}
         <div className="overflow-hidden rounded-2xl border border-border-subtle bg-surface shadow-soft-lg">
-          <div className="border-b border-border-subtle bg-surface-secondary/50 px-8 py-6">
+          <div className="border-b border-border-subtle bg-surface-secondary/50 px-4 sm:px-8 py-5 sm:py-6">
             <h2 className="font-display text-lg font-medium text-foreground">Sign in</h2>
             <p className="mt-1 text-sm text-muted">
             {isDemoMode
@@ -65,7 +65,7 @@ export function Login() {
               : 'Enter your credentials to continue'}
           </p>
           </div>
-          <form onSubmit={handleSubmit} className="p-8">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-8">
             <div className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-foreground-muted">Email</Label>
@@ -117,19 +117,19 @@ export function Login() {
         </div>
 
         {isDemoMode && (
-          <div className="mt-6 rounded-xl border border-accent/20 bg-accent/5 px-4 py-3">
+          <div className="mt-6 rounded-xl border border-accent/20 bg-accent/5 px-3 sm:px-4 py-3 overflow-x-auto">
             <p className="text-center text-sm font-medium text-accent">Demo credentials</p>
             <div className="mt-3 space-y-2 text-sm">
-              <div className="rounded-lg bg-surface/50 px-3 py-2">
+              <div className="rounded-lg bg-surface/50 px-3 py-2 min-w-0">
                 <p className="font-medium text-foreground">Admin (full access)</p>
-                <p className="text-muted">
-                  <code className="rounded px-1 font-mono text-xs">{DEMO_CREDENTIALS.admin.email}</code> / <code className="rounded px-1 font-mono text-xs">{DEMO_CREDENTIALS.admin.password}</code>
+                <p className="text-muted text-xs sm:text-sm break-all">
+                  <code className="rounded px-1 font-mono text-[10px] sm:text-xs">{DEMO_CREDENTIALS.admin.email}</code> / <code className="rounded px-1 font-mono text-[10px] sm:text-xs">{DEMO_CREDENTIALS.admin.password}</code>
                 </p>
               </div>
-              <div className="rounded-lg bg-surface/50 px-3 py-2">
+              <div className="rounded-lg bg-surface/50 px-3 py-2 min-w-0">
                 <p className="font-medium text-foreground">Media Operator (Media Prompter only)</p>
-                <p className="text-muted">
-                  <code className="rounded px-1 font-mono text-xs">{DEMO_CREDENTIALS.media.email}</code> / <code className="rounded px-1 font-mono text-xs">{DEMO_CREDENTIALS.media.password}</code>
+                <p className="text-muted text-xs sm:text-sm break-all">
+                  <code className="rounded px-1 font-mono text-[10px] sm:text-xs">{DEMO_CREDENTIALS.media.email}</code> / <code className="rounded px-1 font-mono text-[10px] sm:text-xs">{DEMO_CREDENTIALS.media.password}</code>
                 </p>
               </div>
             </div>

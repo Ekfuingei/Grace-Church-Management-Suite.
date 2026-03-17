@@ -113,7 +113,7 @@ export function Tithe() {
       />
 
       {formOpen && (
-        <div className="rounded-2xl border border-border-subtle bg-surface p-6 shadow-card">
+        <div className="rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-card">
           <h3 className="mb-4 font-display text-lg font-semibold">Record Giving</h3>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
@@ -240,40 +240,63 @@ export function Tithe() {
         />
       ) : (
         <div className="rounded-2xl border border-border-subtle bg-surface shadow-card overflow-hidden">
-          <div className="border-b border-border-subtle bg-surface-secondary/50 px-6 py-4">
+          <div className="border-b border-border-subtle bg-surface-secondary/50 px-4 sm:px-6 py-4">
             <h3 className="font-display text-lg font-semibold">Giving History</h3>
           </div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border-subtle bg-surface-secondary/50">
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Member</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Date</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Type</th>
-                <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-muted">Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Payment</th>
-                <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-muted">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-subtle">
-              {records.map((r) => (
-                <tr key={r.id} className="hover:bg-surface-secondary/30">
-                  <td className="px-6 py-4 font-medium">
-                    {(r as { members?: { full_name?: string } }).members?.full_name ?? '—'}
-                  </td>
-                  <td className="px-6 py-4 text-muted">{r.date}</td>
-                  <td className="px-6 py-4">{r.giving_type}</td>
-                  <td className="px-6 py-4 text-right font-medium">{r.amount} {r.currency}</td>
-                  <td className="px-6 py-4 text-muted">{r.payment_method}</td>
-                  <td className="px-6 py-4 text-right">
-                    <Button variant="ghost" size="sm" onClick={() => handleDownloadPDF(r)}>
-                      <Download className="h-4 w-4" />
-                      PDF
-                    </Button>
-                  </td>
+          {/* Mobile: card layout */}
+          <div className="md:hidden divide-y divide-border-subtle">
+            {records.map((r) => (
+              <div key={r.id} className="p-4 space-y-2 hover:bg-surface-secondary/30">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="font-medium truncate">{(r as { members?: { full_name?: string } }).members?.full_name ?? '—'}</p>
+                  <p className="font-semibold text-accent shrink-0">{r.amount} {r.currency}</p>
+                </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
+                  <span>{r.date}</span>
+                  <span>{r.giving_type}</span>
+                  <span>{r.payment_method}</span>
+                </div>
+                <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => handleDownloadPDF(r)}>
+                  <Download className="h-4 w-4" />
+                  Download PDF
+                </Button>
+              </div>
+            ))}
+          </div>
+          {/* Desktop: table */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full text-sm min-w-[600px]">
+              <thead>
+                <tr className="border-b border-border-subtle bg-surface-secondary/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Member</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Date</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Type</th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-muted">Amount</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Payment</th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-muted">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-border-subtle">
+                {records.map((r) => (
+                  <tr key={r.id} className="hover:bg-surface-secondary/30">
+                    <td className="px-6 py-4 font-medium">
+                      {(r as { members?: { full_name?: string } }).members?.full_name ?? '—'}
+                    </td>
+                    <td className="px-6 py-4 text-muted">{r.date}</td>
+                    <td className="px-6 py-4">{r.giving_type}</td>
+                    <td className="px-6 py-4 text-right font-medium">{r.amount} {r.currency}</td>
+                    <td className="px-6 py-4 text-muted">{r.payment_method}</td>
+                    <td className="px-6 py-4 text-right">
+                      <Button variant="ghost" size="sm" onClick={() => handleDownloadPDF(r)}>
+                        <Download className="h-4 w-4" />
+                        PDF
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

@@ -131,7 +131,7 @@ export function Evangelism() {
         <Dialog.Root open={formOpen} onOpenChange={setFormOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-full max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-[calc(100vw-2rem)] max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">{editing ? 'Edit Contact' : 'Add Contact'}</Dialog.Title>
               <form onSubmit={handleSave} className="mt-6 space-y-4">
                 <div className="space-y-2">
@@ -186,7 +186,7 @@ export function Evangelism() {
         <Dialog.Root open={!!followupOpen} onOpenChange={(o) => !o && setFollowupOpen(null)}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">Log Follow-up: {followupOpen.full_name}</Dialog.Title>
               <form onSubmit={handleLogFollowup} className="mt-6 space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -231,7 +231,7 @@ export function Evangelism() {
         <Dialog.Root open={!!convertOpen} onOpenChange={(o) => !o && setConvertOpen(null)}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">Convert to Member: {convertOpen.full_name}</Dialog.Title>
               <p className="mt-2 text-sm text-muted">Link this contact to an existing member record.</p>
               <div className="mt-6 space-y-4">
@@ -257,9 +257,9 @@ export function Evangelism() {
       ) : contacts.length === 0 ? (
         <EmptyState icon={Heart} title="No contacts" description="Add evangelism contacts to track follow-up." action={<Button onClick={() => setFormOpen(true)}><Plus className="h-4 w-4" /> Add Contact</Button>} />
       ) : (
-        <div className="flex gap-4 overflow-x-auto pb-4">
+        <div className="flex gap-4 overflow-x-auto pb-4 -mx-3 px-3 sm:mx-0 sm:px-0">
           {byStage.map(({ stage, contacts: stageContacts }) => (
-            <div key={stage} className="min-w-[280px] flex-shrink-0 rounded-2xl border border-border-subtle bg-surface-secondary/50 p-4">
+            <div key={stage} className="min-w-[260px] sm:min-w-[280px] flex-shrink-0 rounded-2xl border border-border-subtle bg-surface-secondary/50 p-4">
               <h4 className="font-semibold text-foreground mb-4">{stage}</h4>
               <div className="space-y-3">
                 {stageContacts.map((c) => (

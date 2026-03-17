@@ -145,7 +145,7 @@ export function Attendance() {
         <Dialog.Root open={formOpen} onOpenChange={setFormOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">Create Service</Dialog.Title>
               <form onSubmit={handleCreateService} className="mt-6 space-y-4">
                 <div className="space-y-2">
@@ -196,7 +196,7 @@ export function Attendance() {
         <Dialog.Root open={firstTimerOpen} onOpenChange={setFirstTimerOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">First Timer Details</Dialog.Title>
               <p className="mt-1 text-sm text-muted">Add this first-timer to members for follow-up.</p>
               <form onSubmit={handleAddFirstTimer} className="mt-6 space-y-4">
@@ -228,8 +228,8 @@ export function Attendance() {
         </Dialog.Root>
       )}
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-1">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-3">
+        <div className="lg:col-span-1 order-2 lg:order-1">
           <h3 className="mb-4 font-display text-lg font-semibold">Services</h3>
           {services.length === 0 ? (
             <EmptyState icon={Calendar} title="No services" description="Create a service to start tracking attendance." />
@@ -254,10 +254,10 @@ export function Attendance() {
           )}
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 order-1 lg:order-2 min-w-0">
           {selectedService ? (
             <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center justify-between gap-3 sm:gap-4">
                 <div>
                   <h3 className="font-display text-lg font-semibold">{selectedService.date} — {selectedService.service_type}</h3>
                   <p className="text-sm text-muted">Present: {presentCount} | First Timers: {firstTimerCount}</p>
@@ -266,49 +266,80 @@ export function Attendance() {
               </div>
 
               <div className="rounded-2xl border border-border-subtle bg-surface overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-border-subtle bg-surface-secondary/50">
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-muted">Member</th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-muted">Status</th>
-                      <th className="px-6 py-4 text-right text-xs font-semibold uppercase text-muted">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border-subtle">
-                    {attendance.map((a) => (
-                      <tr key={a.id} className="hover:bg-surface-secondary/30">
-                        <td className="px-6 py-4 font-medium">
-                          {(a as { members?: { full_name?: string } }).members?.full_name ?? '—'}
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={cn(
-                            'rounded-full px-2.5 py-0.5 text-xs font-medium',
-                            a.status === 'Present' && 'bg-success-muted text-success',
-                            a.status === 'Absent' && 'bg-danger-muted text-danger',
-                            a.status === 'First Timer' && 'bg-accent/10 text-accent'
-                          )}>
-                            {a.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <div className="flex justify-end gap-1">
-                            {(() => {
-                              const m = members.find((x) => x.id === a.member_id) ?? { id: a.member_id } as Member
-                              return (
-                                <>
-                                  <Button variant="ghost" size="sm" onClick={() => handleMarkAttendance(m, 'Present')}>Present</Button>
-                                  <Button variant="ghost" size="sm" onClick={() => handleMarkAttendance(m, 'Absent')}>Absent</Button>
-                                </>
-                              )
-                            })()}
+                {attendance.length === 0 ? (
+                  <div className="py-12 text-center text-muted text-sm">No attendance recorded yet. Mark members above.</div>
+                ) : (
+                  <>
+                    {/* Mobile: card layout */}
+                    <div className="md:hidden divide-y divide-border-subtle">
+                      {attendance.map((a) => {
+                        const m = members.find((x) => x.id === a.member_id) ?? { id: a.member_id } as Member
+                        return (
+                          <div key={a.id} className="p-4 flex flex-wrap items-center justify-between gap-2">
+                            <div className="min-w-0 flex-1">
+                              <p className="font-medium truncate">{(a as { members?: { full_name?: string } }).members?.full_name ?? '—'}</p>
+                              <span className={cn(
+                                'inline-block mt-1 rounded-full px-2.5 py-0.5 text-xs font-medium',
+                                a.status === 'Present' && 'bg-success-muted text-success',
+                                a.status === 'Absent' && 'bg-danger-muted text-danger',
+                                a.status === 'First Timer' && 'bg-accent/10 text-accent'
+                              )}>
+                                {a.status}
+                              </span>
+                            </div>
+                            <div className="flex gap-1 shrink-0">
+                              <Button variant="ghost" size="sm" onClick={() => handleMarkAttendance(m, 'Present')}>Present</Button>
+                              <Button variant="ghost" size="sm" onClick={() => handleMarkAttendance(m, 'Absent')}>Absent</Button>
+                            </div>
                           </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {attendance.length === 0 && (
-                  <div className="py-12 text-center text-muted">No attendance recorded yet. Mark members above.</div>
+                        )
+                      })}
+                    </div>
+                    {/* Desktop: table */}
+                    <div className="hidden md:block overflow-x-auto">
+                      <table className="w-full text-sm min-w-[400px]">
+                        <thead>
+                          <tr className="border-b border-border-subtle bg-surface-secondary/50">
+                            <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-muted">Member</th>
+                            <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-muted">Status</th>
+                            <th className="px-6 py-4 text-right text-xs font-semibold uppercase text-muted">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border-subtle">
+                          {attendance.map((a) => (
+                            <tr key={a.id} className="hover:bg-surface-secondary/30">
+                              <td className="px-6 py-4 font-medium">
+                                {(a as { members?: { full_name?: string } }).members?.full_name ?? '—'}
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className={cn(
+                                  'rounded-full px-2.5 py-0.5 text-xs font-medium',
+                                  a.status === 'Present' && 'bg-success-muted text-success',
+                                  a.status === 'Absent' && 'bg-danger-muted text-danger',
+                                  a.status === 'First Timer' && 'bg-accent/10 text-accent'
+                                )}>
+                                  {a.status}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                <div className="flex justify-end gap-1">
+                                  {(() => {
+                                    const m = members.find((x) => x.id === a.member_id) ?? { id: a.member_id } as Member
+                                    return (
+                                      <>
+                                        <Button variant="ghost" size="sm" onClick={() => handleMarkAttendance(m, 'Present')}>Present</Button>
+                                        <Button variant="ghost" size="sm" onClick={() => handleMarkAttendance(m, 'Absent')}>Absent</Button>
+                                      </>
+                                    )
+                                  })()}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
@@ -338,12 +369,12 @@ function MarkAttendanceButton({
 
   return (
     <div className="relative">
-      <Button onClick={() => setOpen(true)}>
-        <UserPlus className="h-4 w-4" />
+      <Button onClick={() => setOpen(true)} className="w-full sm:w-auto">
+        <UserPlus className="h-4 w-4 shrink-0" />
         Mark Attendance
       </Button>
       {open && (
-        <div className="absolute right-0 top-full z-10 mt-2 w-80 rounded-xl border border-border-subtle bg-surface p-4 shadow-soft-lg">
+        <div className="absolute right-0 sm:right-0 left-0 sm:left-auto top-full z-10 mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-sm rounded-xl border border-border-subtle bg-surface p-4 shadow-soft-lg">
           <Input
             placeholder="Search member..."
             value={query}

@@ -136,7 +136,7 @@ export function Rota() {
         <Dialog.Root open={deptFormOpen} onOpenChange={setDeptFormOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">{editingDept ? 'Edit Department' : 'Add Department'}</Dialog.Title>
               <form onSubmit={handleSaveDept} className="mt-6 space-y-4">
                 <div className="space-y-2">
@@ -176,7 +176,7 @@ export function Rota() {
         onConfirm={handleDeleteDept}
       />
 
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-3 min-w-0">
         <div className="space-y-6">
           <div>
             <h3 className="mb-4 font-display text-lg font-semibold">Departments</h3>
@@ -232,7 +232,7 @@ export function Rota() {
         <div className="lg:col-span-2 space-y-6">
           {selectedService && (
             <>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <h3 className="font-display text-lg font-semibold">Rota: {selectedService.date}</h3>
                 <Button onClick={() => setAssignOpen(true)}>
                   <Plus className="h-4 w-4" />
@@ -241,7 +241,7 @@ export function Rota() {
               </div>
 
               {conflictMembers.length > 0 && (
-                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-start gap-3">
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex flex-col sm:flex-row items-start gap-3">
                   <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600" />
                   <div>
                     <p className="font-medium text-amber-800">Conflict detected</p>
@@ -263,13 +263,13 @@ export function Rota() {
               <div className="space-y-4">
                 {byDept.map(({ dept, items }) => (
                   <div key={dept.id} className="rounded-2xl border border-border-subtle bg-surface overflow-hidden">
-                    <div className="flex items-center justify-between border-b border-border-subtle px-6 py-3" style={{ borderLeftWidth: 4, borderLeftColor: dept.color }}>
+                    <div className="flex items-center justify-between border-b border-border-subtle px-4 sm:px-6 py-3 gap-2" style={{ borderLeftWidth: 4, borderLeftColor: dept.color }}>
                       <h4 className="font-semibold">{dept.name}</h4>
                       <span className="text-sm text-muted">{items.length} / {dept.max_volunteers}</span>
                     </div>
                     <ul className="divide-y divide-border-subtle">
                       {items.map((a) => (
-                        <li key={a.id} className="flex items-center justify-between px-6 py-3 hover:bg-surface-secondary/50">
+                        <li key={a.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-4 sm:px-6 py-3 hover:bg-surface-secondary/50">
                           <span className="font-medium">{(a as { members?: { full_name?: string } }).members?.full_name ?? '—'}</span>
                           <div className="flex items-center gap-2">
                             {a.role && <span className="text-sm text-muted">{a.role}</span>}
@@ -297,7 +297,7 @@ export function Rota() {
         <Dialog.Root open={assignOpen} onOpenChange={setAssignOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">Assign Volunteer</Dialog.Title>
               <div className="mt-6 space-y-4">
                 <div className="space-y-2">

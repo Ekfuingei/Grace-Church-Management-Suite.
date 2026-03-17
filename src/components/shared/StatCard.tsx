@@ -14,14 +14,14 @@ export function StatCard({ title, value, subtitle, icon: Icon, trend, className 
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-2xl border border-border-subtle bg-surface p-6 shadow-card transition-all duration-250 hover:shadow-card-hover hover:border-border',
+        'group relative overflow-hidden rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-card transition-all duration-250 hover:shadow-card-hover hover:border-border min-w-0',
         className
       )}
     >
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[13px] font-medium uppercase tracking-wider text-muted">{title}</p>
-          <p className="mt-3 font-display text-2xl font-semibold tracking-tight text-foreground">
+          <p className="mt-2 sm:mt-3 font-display text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
             {value}
           </p>
           {subtitle && (

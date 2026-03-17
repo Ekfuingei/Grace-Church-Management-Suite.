@@ -137,7 +137,7 @@ export function MediaPrompter() {
   if (fullscreen) {
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[#0f0f0f]">
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-3">
+        <div className="flex items-center justify-between border-b border-white/10 px-3 sm:px-6 py-3 gap-2 flex-wrap">
           <div className="flex items-center gap-4">
             {setlist.length > 0 ? (
               <>
@@ -188,10 +188,10 @@ export function MediaPrompter() {
             <Minimize2 className="h-5 w-5" />
           </Button>
         </div>
-        <div className="flex flex-1 items-center justify-center p-12">
+        <div className="flex flex-1 items-center justify-center p-4 sm:p-8 lg:p-12">
           <div
             className={cn(
-              'max-w-4xl text-center font-display font-semibold text-accent-gold',
+              'max-w-4xl w-full text-center font-display font-semibold text-accent-gold px-4',
               fontSizes[fontSize - 1]
             )}
           >
@@ -229,7 +229,7 @@ export function MediaPrompter() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in min-w-0">
       <PageHeader
         title="Media Prompter"
         subtitle="Voice scripture & hymns for projection"
@@ -237,16 +237,17 @@ export function MediaPrompter() {
           <Button
             onClick={() => setFullscreen(true)}
             disabled={!displayContent && setlist.length === 0}
+            className="w-full sm:w-auto"
           >
-            <Maximize2 className="h-4 w-4" />
+            <Maximize2 className="h-4 w-4 shrink-0" />
             Fullscreen
           </Button>
         }
       />
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 min-w-0">
         {/* Scripture search */}
-        <div className="rounded-2xl border border-border-subtle bg-surface p-6 shadow-card">
+        <div className="rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-card min-w-0">
           <h3 className="mb-4 font-display text-lg font-semibold text-foreground">Scripture Search</h3>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
@@ -306,7 +307,7 @@ export function MediaPrompter() {
         </div>
 
         {/* Hymn search */}
-        <div className="rounded-2xl border border-border-subtle bg-surface p-6 shadow-card">
+        <div className="rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-card min-w-0">
           <h3 className="mb-4 font-display text-lg font-semibold text-foreground">Hymn Search</h3>
           <Input
             value={hymnQuery}
@@ -360,8 +361,8 @@ export function MediaPrompter() {
       </div>
 
       {/* Recently used & Favourites */}
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div className="rounded-2xl border border-border-subtle bg-surface p-6 shadow-card">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 min-w-0">
+        <div className="rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-card min-w-0">
           <h3 className="mb-4 font-display text-lg font-semibold text-foreground">Recently Used</h3>
           {recent.length === 0 ? (
             <p className="text-sm text-muted">No recent items</p>
@@ -394,7 +395,7 @@ export function MediaPrompter() {
           )}
         </div>
 
-        <div className="rounded-2xl border border-border-subtle bg-surface p-6 shadow-card">
+        <div className="rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-card min-w-0">
           <h3 className="mb-4 font-display text-lg font-semibold text-foreground">Service Setlist</h3>
           {setlist.length === 0 ? (
             <p className="text-sm text-muted">Add scriptures or hymns to build your setlist</p>

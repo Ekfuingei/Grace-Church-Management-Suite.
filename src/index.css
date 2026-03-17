@@ -17,10 +17,19 @@
   }
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: 'ss01' on, 'ss02' on;
+    overflow-x: hidden;
+  }
+  /* Safe area for notched devices */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0);
   }
 }
 

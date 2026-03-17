@@ -25,7 +25,7 @@ export function PageHeader({ title, subtitle, actions, className }: PageHeaderPr
         )}
       </div>
       {actions && (
-        <div className="mt-4 flex shrink-0 flex-wrap gap-2 sm:mt-0">
+        <div className="mt-4 flex shrink-0 flex-wrap gap-2 sm:mt-0 sm:flex-nowrap">
           {actions}
         </div>
       )}

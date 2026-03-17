@@ -88,7 +88,7 @@ export function Announcements() {
     const slide = activeAnnouncements[slideIndex]
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[#0f0f0f]">
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-3">
+        <div className="flex items-center justify-between border-b border-white/10 px-4 sm:px-6 py-3 gap-2">
           <Button variant="ghost" size="icon" className="text-accent-gold" onClick={() => setSlideIndex((i) => Math.max(0, i - 1))} disabled={slideIndex === 0}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -97,9 +97,9 @@ export function Announcements() {
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
-        <div className="flex flex-1 items-center justify-center p-12">
-          <div className="max-w-4xl text-center">
-            <h2 className="font-display text-4xl font-bold text-accent-gold mb-6">{slide.title}</h2>
+        <div className="flex flex-1 items-center justify-center p-4 sm:p-8 lg:p-12">
+          <div className="max-w-4xl w-full text-center px-4">
+            <h2 className="font-display text-2xl sm:text-4xl font-bold text-accent-gold mb-4 sm:mb-6">{slide.title}</h2>
             {slide.image_url && (
               <img src={slide.image_url} alt="" className="mx-auto max-h-96 rounded-xl mb-6" />
             )}
@@ -122,7 +122,7 @@ export function Announcements() {
         title="Church Announcement Board"
         subtitle="Manage and display announcements"
         actions={
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => setFullscreen(true)} disabled={activeAnnouncements.length === 0}>
               <Maximize2 className="h-4 w-4" />
               Fullscreen
@@ -139,7 +139,7 @@ export function Announcements() {
         <Dialog.Root open={formOpen} onOpenChange={setFormOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-full max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-[calc(100vw-2rem)] max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">{editing ? 'Edit Announcement' : 'Add Announcement'}</Dialog.Title>
               <form onSubmit={handleSave} className="mt-6 space-y-4">
                 <div className="space-y-2">
@@ -209,7 +209,7 @@ export function Announcements() {
       ) : announcements.length === 0 ? (
         <EmptyState icon={Megaphone} title="No announcements" description="Add your first announcement." action={<Button onClick={() => setFormOpen(true)}><Plus className="h-4 w-4" /> Add</Button>} />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 min-w-0">
           {announcements.map((a) => (
             <div key={a.id} className={cn('rounded-2xl border bg-surface p-6 shadow-card', a.is_urgent && 'border-amber-300 bg-amber-50/50')}>
               <div className="flex items-start justify-between gap-2">

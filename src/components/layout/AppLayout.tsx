@@ -15,22 +15,22 @@ export function AppLayout() {
   })
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <div className="flex flex-1">
+    <div className="flex min-h-screen min-h-[100dvh] flex-col bg-background">
+      <div className="flex flex-1 min-w-0">
         <Sidebar />
-        <main className="flex-1 pb-24 lg:pb-0">
-          <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border-subtle bg-surface/95 px-4 backdrop-blur-sm lg:px-8">
-            <div className="flex items-center gap-4">
-              <div>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-foreground">{today}</p>
+        <main className="flex-1 min-w-0 pb-24 lg:pb-0 overflow-x-hidden">
+          <header className="sticky top-0 z-30 flex h-14 sm:h-16 items-center justify-between gap-2 border-b border-border-subtle bg-surface/95 px-3 sm:px-4 lg:px-8 backdrop-blur-sm">
+            <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-xs sm:text-sm font-medium text-foreground truncate">{today}</p>
                   {isDemoMode && (
                     <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-accent">
                       Demo
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-muted">{user?.email ?? 'Admin'}</p>
+                <p className="text-[11px] sm:text-xs text-muted truncate">{user?.email ?? 'Admin'}</p>
               </div>
             </div>
             <Button
@@ -43,7 +43,7 @@ export function AppLayout() {
               <LogOut className="h-4 w-4" />
             </Button>
           </header>
-          <div className="p-4 lg:p-8">
+          <div className="p-3 sm:p-4 lg:p-8 max-w-full">
             <Outlet />
           </div>
         </main>

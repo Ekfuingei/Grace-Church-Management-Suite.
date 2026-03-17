@@ -71,61 +71,75 @@ export function Members() {
         />
       ) : (
         <div className="overflow-hidden rounded-2xl border border-border-subtle bg-surface shadow-card">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border-subtle bg-surface-secondary/50">
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">
-                  Name
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">
-                  Member ID
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">
-                  Status
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">
-                  Phone
-                </th>
-                <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-muted">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-subtle">
-              {members.map((m) => (
-                <tr
-                  key={m.id}
-                  className="transition-colors hover:bg-surface-secondary/30"
-                >
-                  <td className="px-6 py-4 font-medium text-foreground">{m.full_name}</td>
-                  <td className="px-6 py-4 text-muted">{m.member_id}</td>
-                  <td className="px-6 py-4">
-                    <StatusBadge status={m.status} />
-                  </td>
-                  <td className="px-6 py-4 text-muted">{m.phone ?? '—'}</td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-1">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => { setEditingMember(m); setFormOpen(true) }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-danger hover:bg-danger-muted hover:text-danger"
-                        onClick={() => setDeleteTarget(m)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </td>
+          {/* Mobile: card layout */}
+          <div className="md:hidden divide-y divide-border-subtle">
+            {members.map((m) => (
+              <div key={m.id} className="p-4 space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-foreground truncate">{m.full_name}</p>
+                    <p className="text-xs text-muted">{m.member_id}</p>
+                  </div>
+                  <StatusBadge status={m.status} />
+                </div>
+                {m.phone && <p className="text-sm text-muted">{m.phone}</p>}
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1"
+                    onClick={() => { setEditingMember(m); setFormOpen(true) }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 text-danger hover:bg-danger-muted hover:text-danger"
+                    onClick={() => setDeleteTarget(m)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Desktop: table */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full text-sm min-w-[500px]">
+              <thead>
+                <tr className="border-b border-border-subtle bg-surface-secondary/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Name</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Member ID</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">Phone</th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-muted">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-border-subtle">
+                {members.map((m) => (
+                  <tr key={m.id} className="transition-colors hover:bg-surface-secondary/30">
+                    <td className="px-6 py-4 font-medium text-foreground">{m.full_name}</td>
+                    <td className="px-6 py-4 text-muted">{m.member_id}</td>
+                    <td className="px-6 py-4">
+                      <StatusBadge status={m.status} />
+                    </td>
+                    <td className="px-6 py-4 text-muted">{m.phone ?? '—'}</td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex justify-end gap-1">
+                        <Button variant="ghost" size="sm" onClick={() => { setEditingMember(m); setFormOpen(true) }}>
+                          Edit
+                        </Button>
+                        <Button variant="ghost" size="sm" className="text-danger hover:bg-danger-muted hover:text-danger" onClick={() => setDeleteTarget(m)}>
+                          Delete
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
       <MemberFormDialog

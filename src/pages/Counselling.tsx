@@ -162,7 +162,7 @@ export function Counselling() {
         title="Counselling Appointment Scheduler"
         subtitle="Manage pastoral appointments and session notes"
         actions={
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => setCaseFormOpen(true)}>
               <Stethoscope className="h-4 w-4" />
               New Case
@@ -179,7 +179,7 @@ export function Counselling() {
         <Dialog.Root open={caseFormOpen} onOpenChange={setCaseFormOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">New Counselling Case</Dialog.Title>
               <form onSubmit={handleCreateCase} className="mt-6 space-y-4">
                 <div className="space-y-2">
@@ -200,7 +200,7 @@ export function Counselling() {
         <Dialog.Root open={apptFormOpen} onOpenChange={setApptFormOpen}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-full max-w-md translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">New Appointment</Dialog.Title>
               <form onSubmit={handleCreateAppt} className="mt-6 space-y-4">
                 <div className="space-y-2">
@@ -272,7 +272,7 @@ export function Counselling() {
         <Dialog.Root open={!!notesOpen} onOpenChange={(o) => { if (!o) { setNotesOpen(null); setExistingNotes([]) } }}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-full max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-6 shadow-soft-lg">
+            <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[90vh] w-[calc(100vw-2rem)] max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-soft-lg">
               <Dialog.Title className="font-display text-xl font-semibold">Session Notes</Dialog.Title>
               <p className="mt-1 text-sm text-muted">{(notesOpen as { members?: { full_name?: string } }).members?.full_name ?? '—'}</p>
               {existingNotes.length > 0 && (
@@ -302,7 +302,7 @@ export function Counselling() {
                   <Label htmlFor="actions">Action Items</Label>
                   <textarea id="actions" rows={2} value={noteForm.action_items} onChange={(e) => setNoteForm((f) => ({ ...f, action_items: e.target.value }))} className="flex w-full rounded-xl border border-border-subtle bg-surface px-4 py-2.5 text-sm" />
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="checkbox" checked={noteForm.next_appointment_recommended} onChange={(e) => setNoteForm((f) => ({ ...f, next_appointment_recommended: e.target.checked }))} className="rounded border-border" />
                     <span className="text-sm">Next appointment recommended</span>
@@ -322,7 +322,7 @@ export function Counselling() {
         </Dialog.Root>
       )}
 
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-3 min-w-0">
         <div>
           <h3 className="mb-4 font-display text-lg font-semibold">Cases</h3>
           {cases.length === 0 ? (
@@ -345,13 +345,13 @@ export function Counselling() {
         </div>
 
         <div className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
             <h3 className="font-display text-lg font-semibold">Week View</h3>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <Button variant="outline" size="icon" onClick={() => setWeekStart((d) => { const x = new Date(d); x.setDate(x.getDate() - 7); return x })}>
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <span className="py-2 text-sm font-medium">
+              <span className="py-2 text-xs sm:text-sm font-medium whitespace-nowrap">
                 {weekStart.toLocaleDateString()} – {new Date(weekStart.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString()}
               </span>
               <Button variant="outline" size="icon" onClick={() => setWeekStart((d) => { const x = new Date(d); x.setDate(x.getDate() + 7); return x })}>
@@ -359,13 +359,13 @@ export function Counselling() {
               </Button>
             </div>
           </div>
-          <div className="overflow-x-auto rounded-2xl border border-border-subtle bg-surface">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto rounded-2xl border border-border-subtle bg-surface -mx-3 sm:mx-0">
+            <table className="w-full text-sm min-w-[600px]">
               <thead>
                 <tr className="border-b border-border-subtle bg-surface-secondary/50">
-                  <th className="w-16 p-2 text-left text-xs font-semibold text-muted">Time</th>
+                  <th className="w-12 sm:w-16 p-2 text-left text-xs font-semibold text-muted">Time</th>
                   {weekDates.map((d) => (
-                    <th key={d.toISOString()} className="min-w-[120px] p-2 text-center text-xs font-semibold text-muted">
+                    <th key={d.toISOString()} className="min-w-[90px] sm:min-w-[120px] p-2 text-center text-xs font-semibold text-muted">
                       {DAYS[d.getDay()]} {d.getDate()}
                     </th>
                   ))}
@@ -376,7 +376,7 @@ export function Counselling() {
                   <tr key={hour} className="border-b border-border-subtle">
                     <td className="p-2 text-muted">{hour}:00</td>
                     {weekDates.map((d) => (
-                      <td key={d.toISOString()} className="min-w-[120px] align-top p-2">
+                      <td key={d.toISOString()} className="min-w-[90px] sm:min-w-[120px] align-top p-2">
                         {getApptsForSlot(d, hour).map((a) => (
                           <div
                             key={a.id}
